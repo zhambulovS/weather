@@ -5,6 +5,10 @@
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-md-12 col-xl-10">
+                    <h1 class="text-center">Weather forecast</h1>
+                    <p class="text-center">
+                        Your reliable source for up-to-date weather data
+                    </p>
                     <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
                         <div class="card-body p-4">
                             <div class="row text-center">
@@ -13,24 +17,28 @@
                                     @if ($message)
                                         <p class="small">{{ $message }}</p>
                                     @else
-                                    <div class="d-flex justify-content-around mt-3">
-                                        <form action="/" method="GET">
-                                            <div class="input-group">
-                                                <input type="text" name="city" class="form-control" placeholder="Enter city name" required>
-                                                <button name="submit" class="btn btn-info" type="submit">Search</button>
-                                            </div>
-                                        </form>
-                                        @if ($weatherData)
-                                        <p style="font-weight: bold;"> {{$today['date']}} </p>
-                                            <a type="button" class="btn btn-info" href="https://yandex.kz/pogoda/maps/nowcast">Rain map</a>
-                                    </div>
+                                        <div class="d-flex justify-content-around mt-3">
+                                            <form action="/" method="GET">
+                                                <div class="input-group">
+                                                    <input type="text" name="city" class="form-control" placeholder="Enter city name" required>
+                                                    <button name="submit" class="btn btn-info" type="submit">Search</button>
+                                                </div>
+                                            </form>
+                                            @if ($weatherData)
+                                                <p style="font-weight: bold;"> {{$today['date']}} </p>
+                                                <a type="button" class="btn btn-info" href="https://yandex.kz/pogoda/maps/nowcast">Rain map</a>
+                                        </div>
                                         <div class="d-flex justify-content-around align-items-center py-5 my-4">
                                             <p class="fw-bold mb-0" style="font-size: 2rem;">{{ $weatherData['name'] }}</p>
                                             <p class="fw-bold mb-0" style="font-size: 3rem;">{{ number_format($weatherData['main']['temp'], 0) }}°C</p>
                                             <div class="text-start">
                                                 <p class="">{{$today['time']}}</p>
                                                 <p class="h3 mb-3">{{ date('l', $weatherData['dt']) }}</p>
-                                                <p class=" mb-0">{{ $weatherData['weather'][0]['description'] }}</p>
+                                                <!-- Compact weather icon and description -->
+                                                <div class="weather-icon-box d-flex align-items-center justify-content-center">
+                                                    <img src="{{ $iconUrl }}" alt="{{ $weatherData['weather'][0]['description'] }}" style="width: 50px; height: auto;">
+                                                    <p class="mb-0 ms-2" style="font-size: 1rem;">{{ $weatherData['weather'][0]['description'] }}</p>
+                                                </div>
                                                 <p class=" mb-0">Wind: {{ number_format($weatherData['wind']['speed'], 0) . ' m/s'}}</p>
                                             </div>
                                         </div>
@@ -48,7 +56,6 @@
                                             @endfor
                                         </div>
                                 </div>
-{{--                                =================================================--}}
                                 <div class="col-md-3 text-end">
                                     <p class="mt-3 mb-5 pb-5">
                                         <a type="button" class="btn btn-info" href="{{route('weatherForMonth')}}" style="color: inherit; text-decoration: none;">For a month</a>
@@ -58,7 +65,8 @@
                                             <span class="pe-2">{{ substr($dt['dt_txt'], 11, 5) }}</span>
                                             <strong>{{ number_format($dt['main']['temp'], 0) }}°C</strong>
                                         </p>
-                                        @endforeach</p>
+                                        @endforeach
+                                        </p>
                                 </div>
                                 @endif
                                 @endif
@@ -67,6 +75,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 @endsection

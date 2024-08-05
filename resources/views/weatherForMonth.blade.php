@@ -16,34 +16,36 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Temperature</th>
-                                            <th>Humidity</th>
-                                            <th>Wind</th>
-                                            <th>Pressure</th>
-                                            <th>Precipitation</th>
-                                            <th>Condition</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach(array_chunk($weatherData, 5) as $weatherRow)
-                                            @foreach($weatherRow as $weather)
-                                                <tr>
-                                                    <td>{{ $weather['date'] }}</td>
-                                                    <td>{{ $weather['temp'] }}</td>
-                                                    <td>{{ $weather['humidity'] }}</td>
-                                                    <td>{{ $weather['wind'] }}</td>
-                                                    <td>{{ $weather['pressure'] }}</td>
-                                                    <td>{{ $weather['precipitation'] }}</td>
-                                                    <td>{{ $weather['condition'] }}</td>
-                                                </tr>
+                                    <div class="fixed-header-wrapper">
+                                        <table class="table table-bordered table-striped fixed-header-table">
+                                            <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Temperature</th>
+                                                <th>Humidity</th>
+                                                <th>Wind</th>
+                                                <th>Pressure</th>
+                                                <th>Precipitation</th>
+                                                <th>Condition</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach(array_chunk($weatherData, 5) as $weatherRow)
+                                                @foreach($weatherRow as $weather)
+                                                    <tr>
+                                                        <td>{{ $weather['date'] }}</td>
+                                                        <td>{{ $weather['temp'] }}</td>
+                                                        <td>{{ $weather['humidity'] }}</td>
+                                                        <td>{{ $weather['wind'] }}</td>
+                                                        <td>{{ $weather['pressure'] }}</td>
+                                                        <td>{{ $weather['precipitation'] }}</td>
+                                                        <td>{{ $weather['condition'] }}</td>
+                                                    </tr>
+                                                @endforeach
                                             @endforeach
-                                        @endforeach
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

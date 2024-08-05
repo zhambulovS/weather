@@ -1,3 +1,44 @@
+.weather-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ccc; /* Add a border if you like */
+    border-radius: 10px; /* Rounded corners */
+    padding: 5px;
+    background-color: #fff; /* Background color */
+}
+
+.fixed-header-wrapper {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    max-height: 400px; /* Задайте высоту контейнера таблицы */
+    overflow: hidden;
+}
+
+.fixed-header-table {
+    display: block;
+}
+
+.fixed-header-table thead {
+    display: block;
+    position: sticky;
+    top: 0;
+    background-color: #e9ecef; /* Цвет фона заголовка */
+    z-index: 10;
+}
+
+.fixed-header-table tbody {
+    display: block;
+    max-height: 400px; /* Высота для прокрутки */
+    overflow-y: auto;
+}
+
+.fixed-header-table th, .fixed-header-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6; /* Цвет границы */
+}
+
 .fundo{
     animation: scales 3s alternate  infinite;
     transform-origin: center;
@@ -51,6 +92,13 @@
         opacity: 0;
     }
 
+}
+header {
+    border-bottom: 2px solid #007bff;
+}
+
+footer {
+    border-top: 2px solid #343a40;
 }
 
 .main{

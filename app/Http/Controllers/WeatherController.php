@@ -30,9 +30,10 @@ class WeatherController extends Controller
                 return view('404');
             }
         }
+        $iconUrl = $this->iconsWeather($weatherData);
         $forDayTemp = $this->forDayTemp($weatherDataForHour);
         $today = $this->today($weatherData);
-        return view('weather', compact('message','weatherData', 'today', 'weatherDataForHour', 'forDayTemp'));
+        return view('weather', compact('iconUrl', 'message','weatherData', 'today', 'weatherDataForHour', 'forDayTemp'));
     }
 
     public function today($weatherData)
@@ -50,7 +51,7 @@ class WeatherController extends Controller
     public function forDayTemp($weatherDataForHour)
     {
         if (is_null($weatherDataForHour)) {
-            return $resultDayTemp = [];
+            return 0;
         }
         $resultDayTemp = []; // Массив для хранения температуры за каждый день
 
@@ -165,5 +166,51 @@ class WeatherController extends Controller
         $pdf = PDF::loadView('pdf.weather', compact('weatherData'));
         return $pdf->download('weather_data.pdf');
     }
+
+    public function iconsWeather($weatherData)
+    {
+        if (is_null($weatherData)) {
+            return 0;
+        }
+        // Access the icon code from the weather data
+        $iconCode = $weatherData['weather'][0]['icon'];
+
+        // Determine the URL for the weather icon based on the code
+        switch ($iconCode) {
+            case '01d': // Clear sky (day)
+                return 'https://openweathermap.org/img/wn/01d@2x.png';
+            case '01n': // Clear sky (night)
+                return 'https://openweathermap.org/img/wn/01n@2x.png';
+            case '02d': // Few clouds (day)
+                return 'https://openweathermap.org/img/wn/02d@2x.png';
+            case '02n': // Few clouds (night)
+                return 'https://openweathermap.org/img/wn/02n@2x.png';
+            case '03d': // Scattered clouds (day)
+            case '03n': // Scattered clouds (night)
+                return 'https://openweathermap.org/img/wn/03d@2x.png';
+            case '04d': // Broken clouds (day)
+            case '04n': // Broken clouds (night)
+                return 'https://openweathermap.org/img/wn/04d@2x.png';
+            case '09d': // Shower rain (day)
+            case '09n': // Shower rain (night)
+                return 'https://openweathermap.org/img/wn/09d@2x.png';
+            case '10d': // Rain (day)
+            case '10n': // Rain (night)
+                return 'https://openweathermap.org/img/wn/10d@2x.png';
+            case '11d': // Thunderstorm (day)
+            case '11n': // Thunderstorm (night)
+                return 'https://openweathermap.org/img/wn/11d@2x.png';
+            case '13d': // Snow (day)
+            case '13n': // Snow (night)
+                return 'https://openweathermap.org/img/wn/13d@2x.png';
+            case '50d': // Mist (day)
+            case '50n': // Mist (night)
+                return 'https://openweathermap.org/img/wn/50d@2x.png';
+            default:
+                return 'https://openweathermap.org/img/wn/01d@2x.png'; // Default icon for unexpected cases
+        }
+    }
+
+
 }
 
