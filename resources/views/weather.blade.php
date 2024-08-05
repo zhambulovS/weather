@@ -21,14 +21,14 @@
                                             </div>
                                         </form>
                                         @if ($weatherData)
-                                        <p class=""> {{$today['date']}} </p>
-                                        <a href="https://yandex.kz/pogoda/maps/nowcast" style="color: inherit; text-decoration: none;">Rain map</a>
+                                        <p style="font-weight: bold;"> {{$today['date']}} </p>
+                                            <a type="button" class="btn btn-info" href="https://yandex.kz/pogoda/maps/nowcast">Rain map</a>
                                     </div>
                                         <div class="d-flex justify-content-around align-items-center py-5 my-4">
                                             <p class="fw-bold mb-0" style="font-size: 2rem;">{{ $weatherData['name'] }}</p>
                                             <p class="fw-bold mb-0" style="font-size: 3rem;">{{ number_format($weatherData['main']['temp'], 0) }}°C</p>
                                             <div class="text-start">
-                                                <p class="small">{{$today['time']}}</p>
+                                                <p class="">{{$today['time']}}</p>
                                                 <p class="h3 mb-3">{{ date('l', $weatherData['dt']) }}</p>
                                                 <p class=" mb-0">{{ $weatherData['weather'][0]['description'] }}</p>
                                                 <p class=" mb-0">Wind: {{ number_format($weatherData['wind']['speed'], 0) . ' m/s'}}</p>

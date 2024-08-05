@@ -129,7 +129,39 @@ class WeatherController extends Controller
 
     public function downloadPDF()
     {
+        // Пример данных, замените на реальные данные из вашей базы данных или API
+        $weatherData = [
+            ['date' => '01-08-2024', 'temp' => '25°C', 'humidity' => '60%', 'wind' => '15 km/h', 'pressure' => '1015 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '02-08-2024', 'temp' => '26°C', 'humidity' => '62%', 'wind' => '10 km/h', 'pressure' => '1013 hPa', 'precipitation' => '0 mm', 'condition' => 'Partly Cloudy'],
+            ['date' => '03-08-2024', 'temp' => '27°C', 'humidity' => '58%', 'wind' => '12 km/h', 'pressure' => '1012 hPa', 'precipitation' => '1 mm', 'condition' => 'Rain'],
+            ['date' => '04-08-2024', 'temp' => '24°C', 'humidity' => '65%', 'wind' => '18 km/h', 'pressure' => '1016 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '05-08-2024', 'temp' => '28°C', 'humidity' => '60%', 'wind' => '14 km/h', 'pressure' => '1010 hpa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '06-08-2024', 'temp' => '29°C', 'humidity' => '55%', 'wind' => '13 km/h', 'pressure' => '1009 hPa', 'precipitation' => '2 mm', 'condition' => 'Thunderstorm'],
+            ['date' => '07-08-2024', 'temp' => '30°C', 'humidity' => '50%', 'wind' => '20 km/h', 'pressure' => '1011 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '08-08-2024', 'temp' => '27°C', 'humidity' => '57%', 'wind' => '10 km/h', 'pressure' => '1014 hPa', 'precipitation' => '1 mm', 'condition' => 'Partly Cloudy'],
+            ['date' => '09-08-2024', 'temp' => '28°C', 'humidity' => '59%', 'wind' => '15 km/h', 'pressure' => '1013 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '10-08-2024', 'temp' => '26°C', 'humidity' => '62%', 'wind' => '12 km/h', 'pressure' => '1015 hPa', 'precipitation' => '3 mm', 'condition' => 'Rain'],
+            ['date' => '11-08-2024', 'temp' => '25°C', 'humidity' => '64%', 'wind' => '11 km/h', 'pressure' => '1012 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '12-08-2024', 'temp' => '24°C', 'humidity' => '65%', 'wind' => '14 km/h', 'pressure' => '1016 hPa', 'precipitation' => '0 mm', 'condition' => 'Partly Cloudy'],
+            ['date' => '13-08-2024', 'temp' => '27°C', 'humidity' => '58%', 'wind' => '16 km/h', 'pressure' => '1013 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '14-08-2024', 'temp' => '28°C', 'humidity' => '56%', 'wind' => '13 km/h', 'pressure' => '1014 hPa', 'precipitation' => '1 mm', 'condition' => 'Thunderstorm'],
+            ['date' => '15-08-2024', 'temp' => '29°C', 'humidity' => '54%', 'wind' => '18 km/h', 'pressure' => '1011 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '16-08-2024', 'temp' => '30°C', 'humidity' => '52%', 'wind' => '20 km/h', 'pressure' => '1010 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '17-08-2024', 'temp' => '28°C', 'humidity' => '55%', 'wind' => '12 km/h', 'pressure' => '1013 hPa', 'precipitation' => '2 mm', 'condition' => 'Rain'],
+            ['date' => '18-08-2024', 'temp' => '27°C', 'humidity' => '58%', 'wind' => '11 km/h', 'pressure' => '1014 hPa', 'precipitation' => '1 mm', 'condition' => 'Partly Cloudy'],
+            ['date' => '19-08-2024', 'temp' => '26°C', 'humidity' => '61%', 'wind' => '14 km/h', 'pressure' => '1016 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '20-08-2024', 'temp' => '25°C', 'humidity' => '63%', 'wind' => '13 km/h', 'pressure' => '1012 hPa', 'precipitation' => '0 mm', 'condition' => 'Partly Cloudy'],
+            ['date' => '21-08-2024', 'temp' => '24°C', 'humidity' => '65%', 'wind' => '15 km/h', 'pressure' => '1017 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '22-08-2024', 'temp' => '28°C', 'humidity' => '55%', 'wind' => '18 km/h', 'pressure' => '1014 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '23-08-2024', 'temp' => '29°C', 'humidity' => '54%', 'wind' => '20 km/h', 'pressure' => '1013 hPa', 'precipitation' => '1 mm', 'condition' => 'Thunderstorm'],
+            ['date' => '24-08-2024', 'temp' => '27°C', 'humidity' => '58%', 'wind' => '12 km/h', 'pressure' => '1014 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '25-08-2024', 'temp' => '26°C', 'humidity' => '60%', 'wind' => '14 km/h', 'pressure' => '1012 hPa', 'precipitation' => '2 mm', 'condition' => 'Rain'],
+            ['date' => '26-08-2024', 'temp' => '28°C', 'humidity' => '57%', 'wind' => '16 km/h', 'pressure' => '1015 hPa', 'precipitation' => '0 mm', 'condition' => 'Partly Cloudy'],
+            ['date' => '27-08-2024', 'temp' => '27°C', 'humidity' => '58%', 'wind' => '13 km/h', 'pressure' => '1013 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '28-08-2024', 'temp' => '29°C', 'humidity' => '54%', 'wind' => '17 km/h', 'pressure' => '1011 hPa', 'precipitation' => '0 mm', 'condition' => 'Sunny'],
+            ['date' => '29-08-2024', 'temp' => '30°C', 'humidity' => '52%', 'wind' => '18 km/h', 'pressure' => '1010 hPa', 'precipitation' => '1 mm', 'condition' => 'Thunderstorm'],
 
+        ];
         $pdf = PDF::loadView('pdf.weather', compact('weatherData'));
         return $pdf->download('weather_data.pdf');
     }
