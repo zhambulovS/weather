@@ -8,6 +8,7 @@
     background-color: #fff; /* Background color */
 }
 
+
 .fixed-header-wrapper {
     display: grid;
     grid-template-rows: auto 1fr;

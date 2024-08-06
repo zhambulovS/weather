@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\OpenWeatherMapService;
-use Barryvdh\DomPDF\Facade as PDF;
+use \PDF;
 class WeatherController extends Controller
 {
     protected $weatherService;
@@ -39,14 +39,27 @@ class WeatherController extends Controller
     public function today($weatherData)
     {
         if (is_null($weatherData)) {
-            return ['date' => '', 'time' => ''];
+            return ['date' => '', 'time' => '', 'sunset' => '', 'sunrise' => '', 'utc' => ''];
         }
+
+        //---------------------------------------------------------------------
         $dt = $weatherData['dt'];
         $timezone_offset = $weatherData['timezone'];
         $datetime = $dt + $timezone_offset;
+        $sunrise =date('H:i', $weatherData['sys']['sunrise']+$timezone_offset);
+        $sunset = date('H:i', $weatherData['sys']['sunset']+$timezone_offset);
         $today = date('d.m.Y', $datetime);
         $time_now = date('H:i', $datetime);
-        return ['date' => $today, 'time' => $time_now];
+        $utc = $this->utc($timezone_offset);
+        return ['date' => $today, 'time' => $time_now, 'sunset' => $sunset, 'sunrise' => $sunrise, 'utc' => $utc];
+    }
+    public function utc($timezone_offset)
+    {
+        $timezone_offset_hours = $timezone_offset / 3600;
+        $absolute_offset_hours = abs($timezone_offset_hours);
+        $sign = ($timezone_offset < 0) ? '-' : '+';
+        $timezone_string = sprintf("UTC%s%02d:%02d", $sign, floor($absolute_offset_hours), ($absolute_offset_hours - floor($absolute_offset_hours)) * 60);
+        return $timezone_string;
     }
     public function forDayTemp($weatherDataForHour)
     {
@@ -58,18 +71,11 @@ class WeatherController extends Controller
         foreach ($weatherDataForHour['list'] as $day) {
             $dateTime = $day['dt_txt'];
             $date = substr($dateTime, 0, 10); // Извлекаем только дату
-            $time = substr($dateTime, 11, 5); // Извлекаем время (часы и минуты)
-
-            // Проверяем, чтобы время было равно 15:00
-            if ($time === '15:00') {
                 if (!isset($resultDayTemp[$date])) {
-                    // Если даты нет в массиве, добавляем её с температурой
-                    $resultDayTemp[$date] = $day['main']['temp'];
+                    $resultDayTemp[$date] = $day['main']['temp_max'];
                 }
             }
-        }
 
-        // Преобразование дат в названия дней недели
         $resultDayTempWithDays = [];
         foreach ($resultDayTemp as $date => $temp) {
             $timestamp = strtotime($date); // Преобразование даты в временную метку
@@ -128,7 +134,7 @@ class WeatherController extends Controller
         return view('weatherForMonth', compact('weatherData'));
     }
 
-    public function downloadPDF()
+    public function view()
     {
         // Пример данных, замените на реальные данные из вашей базы данных или API
         $weatherData = [
@@ -163,7 +169,7 @@ class WeatherController extends Controller
             ['date' => '29-08-2024', 'temp' => '30°C', 'humidity' => '52%', 'wind' => '18 km/h', 'pressure' => '1010 hPa', 'precipitation' => '1 mm', 'condition' => 'Thunderstorm'],
 
         ];
-        $pdf = PDF::loadView('pdf.weather', compact('weatherData'));
+        $pdf = PDF::loadView('weather-for-month', compact('weatherData'));
         return $pdf->download('weather_data.pdf');
     }
 

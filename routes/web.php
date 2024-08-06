@@ -16,4 +16,4 @@ use App\Http\Controllers\WeatherController;
 Route::get('/', [WeatherController::class, 'index'])->name('weather');
 Route::get('/month', [WeatherController::class, 'showMonthlyWeather'])->name('weatherForMonth');
 Route::get('/404', [WeatherController::class, 'notFound'])->name('weather.notFound');
-Route::get('/weather-for-month', [WeatherController::class, 'downloadPDF'])->name('downloadPDF');
+Route::get('/weather-for-month', [WeatherController::class, 'view'])->name('downloadPDF');

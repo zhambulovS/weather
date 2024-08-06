@@ -25,21 +25,28 @@
                                                 </div>
                                             </form>
                                             @if ($weatherData)
-                                                <p style="font-weight: bold;"> {{$today['date']}} </p>
-                                                <a type="button" class="btn btn-info" href="https://yandex.kz/pogoda/maps/nowcast">Rain map</a>
-                                        </div>
+                                                <div style="text-align: center;">
+                                                    <p class="mb-0" style="font-weight: bold;">{{$today['date']}}</p>
+                                                    <p class="">{{$today['time']}}</p>
+                                                </div>
+                                          </div>
                                         <div class="d-flex justify-content-around align-items-center py-5 my-4">
-                                            <p class="fw-bold mb-0" style="font-size: 2rem;">{{ $weatherData['name'] }}</p>
+                                            <div class="weather-container">
+                                                <p class="fw-bold mb-0 weather-name" style="font-size: 2rem;">{{ $weatherData['name'] }}</p>
+                                                <img src="https://flagsapi.com/{{$weatherData['sys']['country']}}/flat/32.png">
+                                            </div>
+
                                             <p class="fw-bold mb-0" style="font-size: 3rem;">{{ number_format($weatherData['main']['temp'], 0) }}°C</p>
                                             <div class="text-start">
-                                                <p class="">{{$today['time']}}</p>
                                                 <p class="h3 mb-3">{{ date('l', $weatherData['dt']) }}</p>
-                                                <!-- Compact weather icon and description -->
                                                 <div class="weather-icon-box d-flex align-items-center justify-content-center">
                                                     <img src="{{ $iconUrl }}" alt="{{ $weatherData['weather'][0]['description'] }}" style="width: 50px; height: auto;">
                                                     <p class="mb-0 ms-2" style="font-size: 1rem;">{{ $weatherData['weather'][0]['description'] }}</p>
                                                 </div>
-                                                <p class=" mb-0">Wind: {{ number_format($weatherData['wind']['speed'], 0) . ' m/s'}}</p>
+                                                <p class="mb-0">{{$today['utc']}} </p>
+                                                <p class="mb-0">Wind: {{ number_format($weatherData['wind']['speed'], 0) . ' m/s'}}</p>
+                                                <p class="mb-0">Sunrise: {{$today['sunrise']}} </p>
+                                                <p class="mb-0">Sunset:  {{$today['sunset']}}</p>
                                             </div>
                                         </div>
                                     @endif
@@ -58,8 +65,9 @@
                                 </div>
                                 <div class="col-md-3 text-end">
                                     <p class="mt-3 mb-5 pb-5">
+                                        <a type="button" class="btn btn-info" href="https://yandex.kz/pogoda/maps/nowcast?z=10&lat={{$weatherData['coord']['lat']}}&lon={{$weatherData['coord']['lon']}}">Rain map</a>
                                         <a type="button" class="btn btn-info" href="{{route('weatherForMonth')}}" style="color: inherit; text-decoration: none;">For a month</a>
-                                    <p> For 12 hour ahead </p>
+                                        <p> For 12 hour ahead </p>
                                     @foreach(array_slice($weatherDataForHour['list'], 0, 6) as $dt)
                                         <p class="pb-1">
                                             <span class="pe-2">{{ substr($dt['dt_txt'], 11, 5) }}</span>
